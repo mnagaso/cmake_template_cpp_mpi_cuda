@@ -21,6 +21,11 @@ public:
 
     int* arr_i;
     double* arr_d;
+
+    // members for cuda
+#ifdef USE_CUDA
+    gpu_data* gpu_data_;
+#endif
 };
 
 #endif // CLASS_TEMPLATE_H

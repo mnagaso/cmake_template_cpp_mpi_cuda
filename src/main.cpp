@@ -8,10 +8,9 @@ int main()
 
 #ifdef USE_CUDA
     std::cout << "Using CUDA." << std::endl;
-#else
+#endif
     // example class
     Class_template c;
-#endif
 
     return 0;
 }

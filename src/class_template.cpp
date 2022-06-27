@@ -44,7 +44,6 @@ void Class_template::memory_allocation()
 #ifdef USE_CUDA
     // allocate memory on device in class_template_wrapper.h
 
-
 #endif
 
     std::cout << "Memory allocated." << std::endl;
@@ -62,6 +61,8 @@ void Class_template::memory_deallocation()
     delete[] arr_i;
     // deallocate arr_d
     delete[] arr_d;
+
+
 
     std::cout << "Memory deallocated." << std::endl;
 }
