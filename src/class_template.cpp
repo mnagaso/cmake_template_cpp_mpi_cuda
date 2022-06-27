@@ -3,14 +3,79 @@
 Class_template::Class_template()
 {
     std::cout << "Class initialized." << std::endl;
+
+    memory_allocation();
+
+    add_2_i();
+    add_2_d();
+
+    print();
 }
 
 Class_template::~Class_template()
 {
     std::cout << "Class destroyed." << std::endl;
+
+    memory_deallocation();
 }
 
 void Class_template::print()
 {
-    std::cout << "Class printed." << std::endl;
+    // print arr_i and arr_d
+    for (int i = 0; i < N; i++) {
+        std::cout << arr_i[i] << " ";
+    }
+    std::cout << std::endl;
+
+    for (int i = 0; i < N; i++) {
+        std::cout << arr_d[i] << " ";
+    }
+    std::cout << std::endl;
+
+}
+
+void Class_template::memory_allocation()
+{
+    // allocate N elements of type int to arr_i
+    arr_i = new int[N];
+    // allocate N elements of type double to arr_d
+    arr_d = new double[N];
+
+#ifdef USE_CUDA
+    // allocate memory on device in class_template_wrapper.h
+
+
+#endif
+
+    std::cout << "Memory allocated." << std::endl;
+
+    // initialize arr_i arr_d
+    for (int i = 0; i < N; i++) {
+        arr_i[i] = 0;
+        arr_d[i] = 0.0;
+    }
+}
+
+void Class_template::memory_deallocation()
+{
+    // deallocate arr_i
+    delete[] arr_i;
+    // deallocate arr_d
+    delete[] arr_d;
+
+    std::cout << "Memory deallocated." << std::endl;
+}
+
+void Class_template::add_2_i()
+{
+    for (int i = 0; i < N; i++) {
+        arr_i[i] += 2;
+    }
+}
+
+void Class_template::add_2_d()
+{
+    for (int i = 0; i < N; i++) {
+        arr_d[i] += 2;
+    }
 }

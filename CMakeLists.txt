@@ -40,7 +40,7 @@ message(STATUS "MPI_VERSION: ${MPI_VERSION}")
 #find_package(HDF5)
 
 # cuda
-find_package(CUDA)
+#find_package(CUDA)
 # add .cu if cuda found
 if(CUDA_FOUND) # TODO : add HIP here in the future
   message(STATUS "CUDA_FOUND: ${CUDA_FOUND}")
