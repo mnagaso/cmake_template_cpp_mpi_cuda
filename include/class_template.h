@@ -7,7 +7,7 @@
 #include "class_template_wrapper.cuh"
 #endif
 
-#define N 100
+#define N 256
 
 class Class_template {
 public:

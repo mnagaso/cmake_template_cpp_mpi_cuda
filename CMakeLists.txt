@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.14)
 
 # set the project name
 set(CMAKE_PROJECT_NAME "TEMPLATE")
-project(${CMAKE_PROJECT_NAME} CXX CUDA)
+project(${CMAKE_PROJECT_NAME} CUDA CXX)
 
 # print project name
 message("Project name: ${CMAKE_PROJECT_NAME}")
@@ -39,19 +39,24 @@ message(STATUS "MPI_VERSION: ${MPI_VERSION}")
 #set(HDF5_PREFER_PARALLEL TRUE)
 #find_package(HDF5)
 
+file(GLOB SOURCES "src/*.cpp")
+file(GLOB HEADERS "src/*.h")
+#file(GLOB SOURCES_EXT_XML "external_libs/tinyxml2/*.cpp")
+
 # cuda
 find_package(CUDA)
 # add .cu if cuda found
+
 if(CUDA_FOUND) # TODO : add HIP here in the future
   message(STATUS "CUDA_FOUND: ${CUDA_FOUND}")
   add_definitions(-DUSE_CUDA)
-  # list of source files
-  file(GLOB SOURCES "src/*.cpp" "src/*.cu")
+  set(CUDA_LIBRARY_NAME "CUDA_LIBRARY")
+
+  # list of source and header files for cuda
+  file(GLOB SOURCES_CUDA "src/*.cu")
+  file(GLOB HEADERS_CUDA "include/*.cuh")
 else()
   message(STATUS "CUDA not found. This library is compiled without CUDA.")
-  # list of source files
-  file(GLOB SOURCES "src/*.cpp")
-  #file(GLOB SOURCES_EXT_XML "external_libs/tinyxml2/*.cpp")
 endif()
 
 # submodules
@@ -61,6 +66,15 @@ add_subdirectory(external_libs)
 
 # add include directory
 include_directories(include)
+if (CUDA_FOUND)
+  include_directories(${CUDA_INCLUDE_DIRS})
+endif()
+
+if (CUDA_FOUND)
+  add_library(${CUDA_LIBRARY_NAME} STATIC ${SOURCES_CUDA} ${HEADERS_CUDA})
+  #target_compile_features(${CUDA_LIBRARY_NAME} PUBLIC cxx_std_11)
+  #set_target_properties(${CUDA_LIBRARY_NAME} PROPERTIES CUDA_SEPARABLE_COMPILATION ON)
+endif()
 
 # add the executable
 add_executable(${CMAKE_PROJECT_NAME} ${SOURCES})# ${SOURCES_EXT_XML})
@@ -84,3 +98,12 @@ target_link_libraries(${CMAKE_PROJECT_NAME} PUBLIC MPI::MPI_CXX)
 # link HDF5
 #target_link_libraries(ESFAST PUBLIC ${HDF5_LIBRARIES})
 #target_include_directories(ESFAST PUBLIC ${HDF5_INCLUDE_DIRS})
+
+
+if (CUDA_FOUND)
+  set_target_properties(${CUDA_LIBRARY_NAME} PROPERTIES CUDA_ARCHITECTURES "35;50;72")
+  #set_target_properties(${CMAKE_PROJECT_NAME} PROPERTIES CUDA_ARCHITECTURES "35;50;72")
+
+  # link cuda
+  target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE ${CUDA_LIBRARY_NAME})
+endif()
