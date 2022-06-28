@@ -40,7 +40,7 @@ message(STATUS "MPI_VERSION: ${MPI_VERSION}")
 #find_package(HDF5)
 
 # cuda
-#find_package(CUDA)
+find_package(CUDA)
 # add .cu if cuda found
 if(CUDA_FOUND) # TODO : add HIP here in the future
   message(STATUS "CUDA_FOUND: ${CUDA_FOUND}")
@@ -63,7 +63,7 @@ add_subdirectory(external_libs)
 include_directories(include)
 
 # add the executable
-add_executable(${CMAKE_PROJECT_NAME} ${SOURCES} ${SOURCES_EXT_XML})
+add_executable(${CMAKE_PROJECT_NAME} ${SOURCES})# ${SOURCES_EXT_XML})
 
 # set include path
 target_include_directories(${CMAKE_PROJECT_NAME} PRIVATE

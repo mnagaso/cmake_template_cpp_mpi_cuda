@@ -43,7 +43,9 @@ void Class_template::memory_allocation()
 
 #ifdef USE_CUDA
     // allocate memory on device in class_template_wrapper.h
-
+    gpu_data_ = new gpu_data;
+    allocate_memory_on_device(gpu_data_->arr_i_device, N);
+    allocate_memory_on_device(gpu_data_->arr_d_device, N);
 #endif
 
     std::cout << "Memory allocated." << std::endl;
@@ -62,16 +64,29 @@ void Class_template::memory_deallocation()
     // deallocate arr_d
     delete[] arr_d;
 
+#ifdef USE_CUDA
+    deallocate_memory_on_device(gpu_data_->arr_i_device);
+    deallocate_memory_on_device(gpu_data_->arr_d_device);
 
+    delete gpu_data_;
+#endif
 
     std::cout << "Memory deallocated." << std::endl;
 }
 
 void Class_template::add_2_i()
 {
+
+#ifdef USE_CUDA
+    copy_host_to_device(gpu_data_->arr_i_device, arr_i, N);
+    add_2_to_all_elements_i(gpu_data_->arr_i_device, N);
+    copy_device_to_host(arr_i, gpu_data_->arr_i_device, N);
+#else
     for (int i = 0; i < N; i++) {
         arr_i[i] += 2;
     }
+#endif
+
 }
 
 void Class_template::add_2_d()

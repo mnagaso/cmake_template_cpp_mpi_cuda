@@ -4,7 +4,7 @@
 #include <iostream>
 
 #ifdef USE_CUDA
-#include "class_template_wrapper.h"
+#include "class_template_wrapper.cuh"
 #endif
 
 #define N 100
