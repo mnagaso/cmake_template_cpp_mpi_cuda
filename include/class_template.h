@@ -7,7 +7,7 @@
 #include "class_template_wrapper.cuh"
 #endif
 
-#define N 256
+#define N 256 // need to be larger than block size
 
 class Class_template {
 public:

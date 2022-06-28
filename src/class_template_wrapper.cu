@@ -55,7 +55,7 @@ __global__ void add_2_to_all_elements_i_kernel(int* d_ptr, size_t size)
 {
     int i = threadIdx.x + blockIdx.x * blockDim.x;
     if (i < size)
-        d_ptr[i] += 4;
+        d_ptr[i] += 2;
 }
 
 void add_2_to_all_elements_i(int* d_ptr, size_t size)
@@ -68,7 +68,7 @@ __global__ void add_2_to_all_elements_d_kernel(double* d_ptr, size_t size)
 {
     int i = threadIdx.x + blockIdx.x * blockDim.x;
     if (i < size)
-        d_ptr[i] += 4.0;
+        d_ptr[i] += 2.0;
 }
 
 void add_2_to_all_elements_d(double* d_ptr, size_t size)

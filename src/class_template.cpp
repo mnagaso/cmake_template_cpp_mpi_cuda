@@ -78,6 +78,7 @@ void Class_template::add_2_i()
 {
 
 #ifdef USE_CUDA
+    // integer array
     copy_host_to_device_i(gpu_data_->arr_i_device, arr_i, N);
     add_2_to_all_elements_i(gpu_data_->arr_i_device, N);
     copy_device_to_host_i(arr_i, gpu_data_->arr_i_device, N);
@@ -91,7 +92,16 @@ void Class_template::add_2_i()
 
 void Class_template::add_2_d()
 {
+
+#ifdef USE_CUDA
+    // double array
+    copy_host_to_device_d(gpu_data_->arr_d_device, arr_d, N);
+    add_2_to_all_elements_d(gpu_data_->arr_d_device, N);
+    copy_device_to_host_d(arr_d, gpu_data_->arr_d_device, N);
+#else
     for (int i = 0; i < N; i++) {
         arr_d[i] += 2;
     }
+#endif
+
 }
